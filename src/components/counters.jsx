@@ -15,11 +15,26 @@ class Counnters  extends Component {
        const products = this.state.products.filter(c => c.id != counterId);
        this.setState({products});
    } 
-       
+
+   increaseCount = (product) =>{
+    const  products = [... this.state.products]
+    const index = products.indexOf(product);
+    products[index].value ++;  
+    this.setState({products});
+    }
+
+    decreaseCount = (product) =>{   
+        const  products = [... this.state.products]
+        const index = products.indexOf(product);        
+        products[index].value = products[index].value > 1 ? products[index].value -1  :1;  
+        this.setState({products}); 
+    }
+
+
    handleReeset = (counterId) =>{
     console.log("reset clicked.");
     const products = this.state.products.map(c => {
-        c.value  = 0;
+        c.value  = 1;
         return c;
     });
     this.setState({products});
@@ -33,8 +48,10 @@ class Counnters  extends Component {
          this.state.products.map(p => 
          <Counter 
          key={p.id} 
-         value ={p}
+         product ={p}
          selected={false}
+         onIncrease = {this.increaseCount}
+         onDecrease = {this.decreaseCount}
          onDelete ={this.deleteItem}
          />)
          }
