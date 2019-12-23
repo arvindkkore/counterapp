@@ -6,7 +6,10 @@ class NavBar  extends Component {
         console.log(this.props);
         return ( 
             <nav className ="navbar navbar-light bg-light">  
-            <a className = "navbar-brand" href ='#'>NavBar</a>                            
+            <a className = "navbar-brand" href ='#'>
+                NavBar {this.props.totalCount}
+            </a> 
+                                   
             </nav>
          );
     }
