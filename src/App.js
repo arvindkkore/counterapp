@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import Counters from './components/counters';
 import NavBar from './components/navbar';
-class  App extends Component {
+import { connect } from 'react-redux';
+class  App1 extends Component {
 
   state = { count :0,
     products : [
@@ -25,7 +26,7 @@ handleReset = () =>{
  render(){
   return (
     <div>
-      <NavBar totalCount ={this.state.products.filter(c => c.value >0).reduce((prev,next) => prev + next.value,0)}/>         
+      <NavBar totalCount ={this.props.count}/>         
       <main className ="container-left m-2" >  
       <Counters />      
       </main>
@@ -34,4 +35,10 @@ handleReset = () =>{
 }
 }
 
+function mapStateToProps(state) {
+  return {...state,
+    count: state.count
+  };
+}
+const App = connect(mapStateToProps, null)(App1);
 export default App;
