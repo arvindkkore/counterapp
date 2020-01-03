@@ -1,24 +1,60 @@
 import React, { Component } from 'react';
+import { increment, decrement,add } from '../actions/index';
 
-class Counnter  extends Component {
+import { connect } from 'react-redux';
+class Counter1  extends Component {
 
 
-   
-    
- 
-    formateCounter(){
-        return this.props.product.value === 0 ? 'ZERO':this.props.product.value ;
-    }
+  increment = (id) => {
+    this.props.dispatch(this.props.increment(id));
+  };
+  
+  decrement = (id) => {
+    this.props.dispatch(this.props.decrement(id));
+  };
+  delete_count = (id) => {
+    this.props.dispatch(this.props.delete_count(id));
+  };
     render() { 
         console.log(this.props);
         return ( 
             <div>               
-                <button onClick = {() => this.props.onDecrease(this.props.product)} className ="btn btn-secondary btn-sm" >Decrease</button>
-                <span  className ="badge badge-primary m-2" >{this.formateCounter()}</span>
-                <button onClick = {() => this.props.onIncrease(this.props.product)} className ="btn btn-secondary btn-sm" >Increase</button>
-                <button onClick = {() => this.props.onDelete(this.props.product.id)} className ="btn btn-danger btn-sm m-2" >Delete</button>
+                <button onClick = {()=> this.decrement(this.props.counter.id)} className ="btn btn-secondary btn-sm" >-</button>
+                <span  className ="badge badge-primary m-2" >{this.props.counter.count}</span>
+                <button onClick = {() =>this.increment(this.props.counter.id)} className ="btn btn-secondary btn-sm" >+</button>                
+                <button onClick = {() =>this.delete_count(this.props.counter.id)} className ="btn btn-danger btn-sm m-2" >DELETE</button>                
             </div>
          );
     }
 } 
-export default Counnter ;
+function mapStateToProps(state) {
+    return {...state,
+      count: state.count
+    };
+  }
+    
+  const mapDispatchToProps = dispatch => {
+    return {
+      increment: (id) => {
+        return {
+           type: 'INCREMENT',
+           id
+         }},        
+         decrement: (id) => {
+         return {
+             type: 'DECREMENT',
+             id,
+         }},
+         delete_count: (id) => {
+          return {
+              type: 'DELETE',
+              id,
+          }},        
+      dispatch  
+    }
+  }
+  
+  
+  const Counter = connect(mapStateToProps, mapDispatchToProps)(Counter1);
+  export default Counter;
+

@@ -1,39 +1,19 @@
-import React,{Component} from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
-import NavBar from './components/navbar';
 import Counters from './components/counters';
-class  App extends Component {
+import NavBar from './components/navbar';
+import { connect } from 'react-redux';
+class  App1 extends Component {
 
   state = { count :0,
     products : [
-        {id: 1,value :0},
+        {id: 1,value :1},
         {id: 2,value :1},
-        {id: 3,value :0},
-        {id: 4,value :3},
-        {id: 5,value :2},
+        {id: 3,value :1},
+        {id: 4,value :1},
+        {id: 5,value :1},
     ]  
     };
-
-deleteItem = (counterId) =>{
-    const products = this.state.products.filter(c => c.id != counterId);
-    this.setState({products});
-} 
-
-increaseCount = (product) =>{
- const  products = [... this.state.products]
- const index = products.indexOf(product);
- products[index].value ++;  
- this.setState({products});
- }
-
- decreaseCount = (product) =>{   
-     const  products = [... this.state.products]
-     const index = products.indexOf(product);        
-     products[index].value = products[index].value > 1 ? products[index].value -1  :1;  
-     this.setState({products}); 
- }
-
 
 handleReset = () =>{
  console.log("reset clicked.");
@@ -46,18 +26,19 @@ handleReset = () =>{
  render(){
   return (
     <div>
-    <NavBar totalCount ={this.state.products.filter(c => c.value >0).reduce((prev,next) => prev + next.value,0)}/>  
-    <main className ="container" >
-      <Counters 
-       products ={this.state.products}
-       onDelete ={this.deleteItem}
-       onReset ={this.handleReset}
-      onIncrement ={this.increaseCount}
-      onDecrement ={this.decreaseCount} />
-    </main>
+      <NavBar totalCount ={this.props.count}/>         
+      <main className ="container-left m-2" >  
+      <Counters />      
+      </main>
     </div>
   );
 }
 }
 
+function mapStateToProps(state) {
+  return {...state,
+    count: state.count
+  };
+}
+const App = connect(mapStateToProps, null)(App1);
 export default App;
